@@ -98,7 +98,8 @@ int parse_args(struct Config *config, struct Argument arguments[], int argc,
         }
 
         if (!matched) {
-            printf("Unknown argument: %s\n", current);
+            fprintf(stderr, "Unknown argument: %s\n", current);
+            return -1;
         }
     }
     return 0;
