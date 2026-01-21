@@ -17,7 +17,9 @@
 */
 
 #include <ncurses.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -31,7 +33,93 @@ int rand_in_range(int min, int max) {
     return rand() % (max - min + 1) + min;
 }
 
-int main() {
+enum { ARG_CHARACTER,
+       // ARG_NO_SPLASH,
+       ARG_HELP };
+
+struct Argument {
+    int id;
+    char *name;
+    char *description;
+    char alias;
+};
+
+struct Config {
+    char character;
+    int splash;
+};
+
+void help(struct Argument arguments[]) {
+    printf("crain: the worst storm this side of the silicon\n\n");
+
+    for (int i = 0; arguments[i].name != NULL; i++) {
+        printf("--%s, -%c: %s\n", arguments[i].name, arguments[i].alias, arguments[i].description);
+    }
+
+    exit(0);
+}
+
+int parse_args(struct Config *config, struct Argument arguments[], int argc,
+               char **argv) {
+    for (int i = 1; i < argc; i++) {
+        char *current = argv[i];
+        int matched = 0;
+
+        for (int j = 0; arguments[j].name != NULL; j++) {
+            int is_short = (current[0] == '-' && current[1] == arguments[j].alias &&
+                            current[2] == '\0');
+            int is_long = (strncmp(current, "--", 2) == 0 &&
+                           strcmp(current + 2, arguments[j].name) == 0);
+
+            if (is_short || is_long) {
+                matched = 1;
+
+                switch (arguments[j].id) {
+                case ARG_CHARACTER:
+                    if (i + 1 < argc) {
+                        config->character = argv[i + 1][0];
+                        i++;
+                    } else {
+                        fprintf(stderr, "Error: --character requires a value\n");
+                        return 1;
+                    }
+                    break;
+
+                    // case ARG_NO_SPLASH:
+                    //     config->splash = 0;
+                    //     break;
+
+                case ARG_HELP:
+                    help(arguments);
+                    return 0;
+                }
+                break;
+            }
+        }
+
+        if (!matched) {
+            printf("Unknown argument: %s\n", current);
+        }
+    }
+    return 0;
+}
+
+int main(int argc, char **argv) {
+    struct Config config = {.character = '|', .splash = 1};
+
+    struct Argument arguments[] = {
+        {ARG_CHARACTER, "character", "set the character", 'c'},
+        //{ARG_NO_SPLASH, "no-splash", "disable splash", 's'},
+        {ARG_HELP, "help", "view help", 'h'},
+        {0, NULL, NULL, 0}};
+
+    if (argc > 1) {
+        if (parse_args(&config, arguments, argc, argv) != 0) {
+            fprintf(stderr, "Error: Failed to parse arguments\n");
+            return 1;
+        }
+    }
+
     srand(time(NULL));
 
     initscr();
@@ -114,7 +202,7 @@ int main() {
                     continue;
 
                 if (array[j][i].active == 1) {
-                    mvaddch(j, i, '|');
+                    mvaddch(j, i, config.character);
                 }
             }
         }

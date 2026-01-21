@@ -7,7 +7,7 @@ rain in the terminal using [ncurses](https://invisible-island.net/ncurses/) (rew
 4. `sudo ninja install`
 
 ## Features
-- [ ] Custom Character
+- [x] Custom Character
 - [ ] Speed
 - [ ] Color
 - [ ] Number of drops
