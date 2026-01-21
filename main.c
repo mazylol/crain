@@ -60,16 +60,18 @@ int main() {
 
     while (1) {
         int ch = getch();
-        if (ch == 'q') break;
+        if (ch == 'q')
+            break;
 
         // gravity
         for (int j = y - 1; j >= 0; j--) {
             for (int i = 0; i < x; i++) {
-                if (array[j][i].active == 0) continue;
+                if (array[j][i].active == 0)
+                    continue;
 
                 // delay
                 if (array[j][i].current < array[j][i].delay) {
-                    array[j][i].current += 50; 
+                    array[j][i].current += 50;
                     continue;
                 }
                 array[j][i].current = 0;
@@ -97,7 +99,7 @@ int main() {
                     array[0][col].current = 0;
                 }
             }
-            
+
             // wait between spawns (200ms to 1000ms)
             spawn = rand_in_range(200, 1000);
         } else {
@@ -105,17 +107,17 @@ int main() {
         }
 
         erase();
-        
+
         for (int j = 0; j < y; j++) {
             for (int i = 0; i < x; i++) {
-                if (j == y - 1 && i == x - 1) continue;
+                if (j == y - 1 && i == x - 1)
+                    continue;
 
                 if (array[j][i].active == 1) {
                     mvaddch(j, i, '|');
                 }
             }
         }
-
 
         refresh();
         napms(50);
