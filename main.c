@@ -108,13 +108,13 @@ int parse_args(struct Config *config, struct Argument arguments[], int argc,
 int main(int argc, char **argv) {
     struct Config config = {.character = '|', .splash = 1};
 
-    struct Argument arguments[] = {
-        {ARG_CHARACTER, "character", "set the character", 'c'},
-        //{ARG_NO_SPLASH, "no-splash", "disable splash", 's'},
-        {ARG_HELP, "help", "view help", 'h'},
-        {0, NULL, NULL, 0}};
-
     if (argc > 1) {
+        struct Argument arguments[] = {
+            {ARG_CHARACTER, "character", "set the character", 'c'},
+            //{ARG_NO_SPLASH, "no-splash", "disable splash", 's'},
+            {ARG_HELP, "help", "view help", 'h'},
+            {0, NULL, NULL, 0}};
+
         if (parse_args(&config, arguments, argc, argv) != 0) {
             fprintf(stderr, "Error: Failed to parse arguments\n");
             return 1;
