@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
     struct Config config = {.character = '|', .splash = 1, .color = COLOR_BLUE};
 
     if (argc > 1) {
-        struct Argument arguments[] = {{ARG_COLOR, "color", "set the color", 'o'},
+        struct Argument arguments[] = {{ARG_COLOR, "color", "set the color [b,r,g,y,w]", 'o'},
                                        {ARG_CHARACTER, "character", "set the character", 'c'},
                                        //{ARG_NO_SPLASH, "no-splash", "disable splash", 's'},
                                        {ARG_HELP, "help", "view help", 'h'},
