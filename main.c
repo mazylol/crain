@@ -34,6 +34,7 @@ int rand_in_range(int min, int max) {
 }
 
 enum { ARG_CHARACTER,
+       ARG_COLOR,
        // ARG_NO_SPLASH,
        ARG_HELP };
 
@@ -47,6 +48,7 @@ struct Argument {
 struct Config {
     char character;
     int splash;
+    int color;
 };
 
 void help(struct Argument arguments[]) {
@@ -59,7 +61,7 @@ void help(struct Argument arguments[]) {
     exit(0);
 }
 
-int parse_args(struct Config *config, struct Argument arguments[], int argc,
+int parse_args(struct Argument arguments[], struct Config *config, int argc,
                char **argv) {
     for (int i = 1; i < argc; i++) {
         char *current = argv[i];
@@ -75,6 +77,29 @@ int parse_args(struct Config *config, struct Argument arguments[], int argc,
                 matched = 1;
 
                 switch (arguments[j].id) {
+                case ARG_COLOR:
+                    if (i + 1 < argc) {
+                        switch (argv[i + 1][0]) {
+                        case 'b':
+                            config->color = COLOR_BLUE;
+                            break;
+                        case 'r':
+                            config->color = COLOR_RED;
+                            break;
+                        case 'g':
+                            config->color = COLOR_GREEN;
+                            break;
+                        case 'y':
+                            config->color = COLOR_YELLOW;
+                            break;
+                        case 'w':
+                            config->color = COLOR_WHITE;
+                            break;
+                        }
+                        i++;
+                    }
+                    break;
+
                 case ARG_CHARACTER:
                     if (i + 1 < argc) {
                         config->character = argv[i + 1][0];
@@ -106,16 +131,16 @@ int parse_args(struct Config *config, struct Argument arguments[], int argc,
 }
 
 int main(int argc, char **argv) {
-    struct Config config = {.character = '|', .splash = 1};
+    struct Config config = {.character = '|', .splash = 1, .color = COLOR_BLUE};
 
     if (argc > 1) {
-        struct Argument arguments[] = {
-            {ARG_CHARACTER, "character", "set the character", 'c'},
-            //{ARG_NO_SPLASH, "no-splash", "disable splash", 's'},
-            {ARG_HELP, "help", "view help", 'h'},
-            {0, NULL, NULL, 0}};
+        struct Argument arguments[] = {{ARG_COLOR, "color", "set the color", 'o'},
+                                       {ARG_CHARACTER, "character", "set the character", 'c'},
+                                       //{ARG_NO_SPLASH, "no-splash", "disable splash", 's'},
+                                       {ARG_HELP, "help", "view help", 'h'},
+                                       {0, NULL, NULL, 0}};
 
-        if (parse_args(&config, arguments, argc, argv) != 0) {
+        if (parse_args(arguments, &config, argc, argv) != 0) {
             fprintf(stderr, "Error: Failed to parse arguments\n");
             return 1;
         }
@@ -132,7 +157,7 @@ int main(int argc, char **argv) {
     if (has_colors()) {
         start_color();
         use_default_colors();
-        init_pair(1, COLOR_BLUE, -1);
+        init_pair(1, config.color, -1);
     }
 
     int x, y;
