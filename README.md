@@ -9,9 +9,9 @@ rain in the terminal using [ncurses](https://invisible-island.net/ncurses/) (rew
 ## Features
 - [x] Custom Character
 - [ ] Speed
-- [ ] Color
+- [x] Color
 - [ ] Number of drops
-- [ ] Gravity
+- [x] Gravity
 - [ ] Splash
 - [ ] Direction
 - [ ] Angle
