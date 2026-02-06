@@ -42,8 +42,8 @@ int main(int argc, char **argv) {
         .acceleration = 0.025f};
 
     if (argc > 1) {
-        char color_desc[83];
-        small_snprintf(color_desc, 83, "set the color [%sb%slue, %sr%sed, %sg%sreen, %sy%sellow, %sw%shite]", "\e[1m", "\e[m");
+        char color_desc[133];
+        small_snprintf(color_desc, 133, "set the color [%sb%slue, %sr%sed, %sg%sreen, %sy%sellow, %sm%sagenta, %sc%syan, %sb%slac%sk%s, %sw%shite]", "\e[1m", "\e[m");
 
         struct Argument arguments[] = {
             {ARG_COLOR, "color", color_desc, 0},

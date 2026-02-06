@@ -50,6 +50,15 @@ struct StringAlias color_aliases[] = {
     // yellow
     {"yellow", COLOR_YELLOW},
     {"y", COLOR_YELLOW},
+    // magenta
+    {"magenta", COLOR_MAGENTA},
+    {"m", COLOR_MAGENTA},
+    // cyan
+    {"cyan", COLOR_CYAN},
+    {"c", COLOR_CYAN},
+    // black
+    {"black", COLOR_BLACK},
+    {"bk", COLOR_BLACK},
     // white
     {"white", COLOR_WHITE},
     {"w", COLOR_WHITE},
