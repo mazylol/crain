@@ -1,6 +1,6 @@
 project('crain', 'c', default_options : ['c_std=c99'])
 
-src = ['main.c']
+src = ['main.c', 'arg.c', 'util.c']
 
 deps = [
   dependency('ncurses'),
