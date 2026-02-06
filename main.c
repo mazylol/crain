@@ -25,8 +25,6 @@
 #include "arg.h"
 #include "util.h"
 
-#define MAX_DROPS 1000
-
 struct Drop {
     float x;
     float y;
@@ -76,6 +74,8 @@ int main(int argc, char **argv) {
 
     int max_x, max_y;
     getmaxyx(stdscr, max_y, max_x);
+
+    const int MAX_DROPS = max_x * max_y;
 
     struct Drop drops[MAX_DROPS];
     for (int i = 0; i < MAX_DROPS; i++) {
