@@ -6,6 +6,7 @@
 #define BUILD_FOLDER "build/"
 #define SRC_FOLDER "./"
 #define BINARY_NAME "crain"
+#define INSTALL_PATH "/usr/local/bin/" BINARY_NAME
 
 int command_exists(const char *cmd) {
     char shell_cmd[256];
@@ -95,6 +96,17 @@ int main(int argc, char **argv) {
 
         if (!nob_cmd_run(&cmd))
             return 1;
+    }
+
+    // Install Step
+    if (argc > 1 && strcmp(argv[1], "install") == 0) {
+        nob_log(NOB_INFO, "Installing %s to %s...", binary_path, INSTALL_PATH);
+
+        if (!nob_copy_file(binary_path, INSTALL_PATH)) {
+            nob_log(NOB_ERROR, "Installation failed. Do you need 'sudo'?");
+            return 1;
+        }
+        nob_log(NOB_INFO, "Successfully installed!");
     }
 
     // Cleanup
