@@ -1,1 +1,5 @@
-./buildDir
+/buildDir
+/build
+nob
+nob.old
+/.cache
