@@ -1,10 +1,16 @@
 # crain
 rain in the terminal using [ncurses](https://invisible-island.net/ncurses/) (rewrite/revamp of [humidify](https://github.com/mazylol/humidify))
 
+# Requirements
+- ncurses
+## Build Only
+- clang
+- bear (optional: for generating compile_commands.json)
+
 ## Install
 1. `git clone https://github.com/mazylol/crain && cd crain`
-3. `meson setup buildDir && cd buildDir`
-4. `sudo ninja install`
+2. `clang nob.c -o nob`
+3. `sudo ./nob install`
 
 ## Features
 - [x] Custom Character
