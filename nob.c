@@ -16,8 +16,10 @@ int create_database(const char *sources[], size_t sources_count,
     nob_sb_append_cstr(&sb, "[\n");
 
     char *cwd = getcwd(NULL, 0);
-    if (!cwd)
+    if (!cwd) {
+        nob_sb_free(sb);
         return 1;
+    }
 
     for (size_t i = 0; i < sources_count; ++i) {
         const char *src = sources[i];
