@@ -75,10 +75,14 @@ int main(int argc, char **argv) {
     int max_x, max_y;
     getmaxyx(stdscr, max_y, max_x);
 
-    const int MAX_DROPS = max_x * max_y;
-
-    struct Drop drops[MAX_DROPS];
-    for (int i = 0; i < MAX_DROPS; i++) {
+    int max_drops = max_x * max_y;
+    struct Drop *drops = malloc(sizeof(*drops) * (size_t)max_drops);
+    if (drops == NULL) {
+        endwin();
+        fprintf(stderr, "Error: Failed to allocate drops buffer\n");
+        return 1;
+    }
+    for (int i = 0; i < max_drops; i++) {
         drops[i].active = 0;
     }
 
@@ -90,6 +94,20 @@ int main(int argc, char **argv) {
         int ch = getch();
         if (ch == 'q')
             break;
+        if (ch == KEY_RESIZE) {
+            resizeterm(0, 0);
+
+            getmaxyx(stdscr, max_y, max_x);
+            int new_max_drops = max_x * max_y;
+            struct Drop *resized = realloc(drops, sizeof(*drops) * (size_t)new_max_drops);
+            if (resized != NULL) {
+                drops = resized;
+                max_drops = new_max_drops;
+                for (int i = 0; i < max_drops; i++) {
+                    drops[i].active = 0;
+                }
+            }
+        }
 
         erase();
 
@@ -97,7 +115,7 @@ int main(int argc, char **argv) {
             int drops_to_make = rand_in_range(1, 4);
 
             for (int k = 0; k < drops_to_make; k++) {
-                for (int i = 0; i < MAX_DROPS; i++) {
+                for (int i = 0; i < max_drops; i++) {
                     if (drops[i].active == 0) {
                         drops[i].active = 1;
                         drops[i].x = rand_in_range(0, max_x - 1);
@@ -113,7 +131,7 @@ int main(int argc, char **argv) {
             spawn_timer--;
         }
 
-        for (int i = 0; i < MAX_DROPS; i++) {
+        for (int i = 0; i < max_drops; i++) {
             if (drops[i].active) {
 
                 drops[i].vy += config.acceleration;
@@ -135,6 +153,7 @@ int main(int argc, char **argv) {
     }
 
     attroff(COLOR_PAIR(1));
+    free(drops);
     endwin();
 
     return 0;
