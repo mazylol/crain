@@ -5,7 +5,6 @@ rain in the terminal using [ncurses](https://invisible-island.net/ncurses/) (rew
 - ncurses
 ## Build Only
 - clang
-- bear (optional: for generating compile_commands.json)
 
 ## Install
 1. `git clone https://github.com/mazylol/crain && cd crain`
