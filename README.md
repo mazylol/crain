@@ -1,4 +1,5 @@
 # crain
+Moved to https://codeberg.org/mazylol/crain
 rain in the terminal using [ncurses](https://invisible-island.net/ncurses/) (rewrite/revamp of [humidify](https://github.com/mazylol/humidify))
 
 # Requirements
